@@ -77,7 +77,30 @@ namespace DesktopApplication
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            string filePath = "units.txt";
+
+            string location = locationTextBox.Text;
+            string unitID = unitIDTextBox.Text;
+            string need = needTextBox.Text;
+            string status = statusTextBox.Text;
+            string time = timeTextBox.Text;
+
+            string unitInfo = string.Format("Location: {0}\nUnit ID: {1}\nNeed: {2}\nStatus: {3}\nTime: {4}\n",
+                                    location, unitID, need, status, time);
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine(unitInfo);
+                }
+
+                MessageBox.Show("Unit information saved to file.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred while saving unit information: " + ex.Message);
+            }
         }
 
         private void ClearInputFields()
@@ -89,6 +112,17 @@ namespace DesktopApplication
             txtTime.Text = string.Empty;
         }
 
+        private void HelpButton(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Help information goes here.");
+        }
+
+        private SearchButton(object sender, RoutedEventArgs e)
+        {
+            string searchQuery = searchTextBox.Text;
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -96,6 +130,8 @@ namespace DesktopApplication
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+    //-----------------------------------------------------------------
 
     public class Unit : INotifyPropertyChanged
     {
