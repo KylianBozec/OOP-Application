@@ -24,7 +24,7 @@ namespace OOP_app
     public partial class MainWindow : Window
     {
 
-        int i = 1;
+        //int i = 1;
 
         public ObservableCollection<Unit> Units { get; set; }
 
@@ -35,9 +35,17 @@ namespace OOP_app
             UnitsList.ItemsSource = Units;
         }
 
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void cmbImages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ComboBox comboBox = (ComboBox)sender;
+            string imageName = "";
+            ComboBoxItem selectedItem = (ComboBoxItem)comboBox.SelectedItem;
+            imageName = selectedItem.Content.ToString();
+            picture.Source = new BitmapImage(new Uri("/images/"+imageName+ ".jpg", UriKind.Relative));
+        }
+
+            private void AddButton_Click(object sender, RoutedEventArgs e)
+            {
             string location = txtLocation.Text;
             string unitNumber = txtUnitNumber.Text;
             string need = txtNeed.Text;
@@ -103,42 +111,40 @@ namespace OOP_app
             }
         }
 
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+            if (tabUnits.IsSelected)
+            {
+                btnSave.Visibility = Visibility.Visible; 
+            }
+            else
+            {
+                btnSave.Visibility = Visibility.Collapsed;  
+            }
+        }
+
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Assuming you want to save the units as XML
-            string filePath = "units.xml";
-
+            string filePath = "Units.txt";
+            
             using (StreamWriter writer = new StreamWriter(filePath))
             {
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ObservableCollection<Unit>));
-                serializer.Serialize(writer, Units);
+                foreach (Unit unit in Units)
+                {
+                    writer.WriteLine($"Location: {unit.Location}");
+                    writer.WriteLine($"Unit Number: {unit.UnitNumber}");
+                    writer.WriteLine($"Need: {unit.Need}");
+                    writer.WriteLine($"Status: {unit.Status}");
+                    writer.WriteLine($"Time: {unit.Time}");
+                    writer.WriteLine();
+                }
             }
 
             MessageBox.Show("Units saved to file.");
         }
 
-        private void Previous_Click(object sender, RoutedEventArgs e)
-        {
-            i--;
-
-            if (i < 1)
-            {
-                i = 4;
-            }
-
-            picture.Source = new BitmapImage(new Uri("/images/image"+i+".jpg", UriKind.Relative));
-        }
-
-        private void Next_Click(object sender, RoutedEventArgs e)
-        {
-            i++;
-
-            if (i > 4)
-            {
-                i = 1;
-            }
-            picture.Source = new BitmapImage(new Uri("/images/image"+i+".jpg", UriKind.Relative));
-        }
     }
 
     public class Unit
@@ -160,4 +166,3 @@ namespace OOP_app
             Time = time;
         }
     }
-}
