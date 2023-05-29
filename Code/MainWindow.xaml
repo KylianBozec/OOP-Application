@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOP_app"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" SizeToContent="WidthAndHeight">
 
     <Grid Margin="10" Background="DimGray">
         <Grid.RowDefinitions>
@@ -13,19 +13,32 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="0">
-            <TabItem Header="Units">
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="434*"/>
+                <ColumnDefinition Width="242*"/>
+                <ColumnDefinition Width="81*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnSave" Content="Save to File" Click="SaveButton_Click" HorizontalAlignment="Left" Margin="10,-2,0,0" Background="White" Foreground="Black" Width="110" Grid.Column="2"/>
+        </Grid>
+
+        <TabControl Grid.Row="0" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem x:Name="tabUnits" Header="Units">
                 <Grid Height="318">
-                    <StackPanel Orientation="Horizontal" Margin="10">
-                        <TextBox x:Name="txtLocation" Width="111" Margin="0,0,10,0" Background="White" Foreground="Black" Height="108" />
-                        <TextBox x:Name="txtUnitNumber" Width="67" Margin="0,0,10,0" Background="White" Foreground="Black" Height="107"/>
-                        <TextBox x:Name="txtNeed" Width="101" Margin="0,0,10,0" Background="White" Foreground="Black" Height="110"/>
-                        <TextBox x:Name="txtStatus" Width="104" Margin="0,0,10,0" Background="White" Foreground="Black" Height="111"/>
-                        <TextBox x:Name="txtTime" Width="80" Margin="0,0,10,0" Background="White" Foreground="Black" Height="97"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="53*"/>
+                        <ColumnDefinition Width="697*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="10,10,10,232" Grid.ColumnSpan="2">
+                        <TextBox x:Name="txtLocation" Width="112" Margin="0,0,10,0" Background="White" Foreground="Black" Height="27" />
+                        <TextBox x:Name="txtUnitNumber" Width="81" Margin="0,0,10,0" Background="White" Foreground="Black" Height="24"/>
+                        <TextBox x:Name="txtNeed" Width="105" Margin="0,0,10,0" Background="White" Foreground="Black" Height="25"/>
+                        <TextBox x:Name="txtStatus" Width="96" Margin="0,0,10,0" Background="White" Foreground="Black" Height="24"/>
+                        <TextBox x:Name="txtTime" Width="85" Margin="0,0,10,0" Background="White" Foreground="Black" Height="24"/>
                         <Button x:Name="btnAdd" Content="Add" Click="AddButton_Click" Background="White" Foreground="Black" Height="23" Width="57"/>
                     </StackPanel>
 
-                    <ListBox x:Name="UnitsList" Margin="624,26,10,36" Background="#FF817F7F" Foreground="White" SelectionChanged="UnitsList_SelectionChanged" FontSize="10" FontFamily="Bahnschrift">
+                    <ListBox x:Name="UnitsList" Margin="10,76,156,10" Background="#FF817F7F" Foreground="White" SelectionChanged="UnitsList_SelectionChanged" FontSize="10" FontFamily="Bahnschrift" Grid.ColumnSpan="2">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -39,17 +52,19 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <StackPanel Orientation="Horizontal" Margin="644,287,6,0">
+                    <StackPanel Orientation="Horizontal" Margin="569,86,10,201" Grid.Column="1">
                         <Button x:Name="btnEdit" Content="Edit" Click="EditButton_Click" Background="White" Foreground="Black" Width="48"/>
                         <Button x:Name="btnDelete" Content="Delete" Click="DeleteButton_Click" Background="White" Foreground="Black" Width="53"/>
                     </StackPanel>
-                    <Label Content="Units List :" HorizontalAlignment="Left" Margin="662,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14"/>
-                    <Label Content="Location :" HorizontalAlignment="Left" Margin="22,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14"/>
-                    <Label Content="UnitID :" HorizontalAlignment="Left" Margin="125,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14"/>
-                    <Label Content="Need :" HorizontalAlignment="Left" Margin="218,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14"/>
-                    <Label Content="Status :" HorizontalAlignment="Left" Margin="331,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14"/>
-                    <Label Content="Time :" HorizontalAlignment="Left" Margin="435,89,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14"/>
+                    <Label Content="Units List :" HorizontalAlignment="Left" Margin="609,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
+                    <Label Content="Location :" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.ColumnSpan="2"/>
+                    <Label Content="UnitID :" HorizontalAlignment="Left" Margin="75,8,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
+                    <Label Content="Need :" HorizontalAlignment="Left" Margin="171,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
+                    <Label Content="Status :" HorizontalAlignment="Left" Margin="278,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
+                    <Label Content="Time :" HorizontalAlignment="Left" Margin="386,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
                 </Grid>
+
+
             </TabItem>
             <TabItem Header="Map" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="36">
                 <Grid>
@@ -64,10 +79,14 @@
                         <RowDefinition Height="30*"/>
                     </Grid.RowDefinitions>
 
-                    <Image Name="picture" Width="600" Source="pack://application:,,,/images/image1.jpg" Margin="26,37,148,139"/>
+                    <Image Name="picture" Width="600" Source="pack://application:,,,/images/image1.jpg" Margin="87,55,87,121"/>
 
-                    <Button Name="previous" Margin="659,97,23,369" Click="Previous_Click" >Previous</Button>
-                    <Button Name="Next" Margin="659,131,23,334" Click="Next_Click" >Next</Button>
+                    <ComboBox x:Name="cmbImages" Grid.Row="0" Margin="338,10,338,456" SelectedIndex="0" SelectionChanged="cmbImages_SelectionChanged">
+                        <ComboBoxItem Content="image1"/>
+                        <ComboBoxItem Content="image2"/>
+                        <ComboBoxItem Content="image3"/>
+                        <ComboBoxItem Content="image4"/>
+                    </ComboBox>
 
                 </Grid>
             </TabItem>
@@ -95,8 +114,6 @@
             </TabItem>
 
         </TabControl>
-        <Grid Grid.Row="1">
-            <Button x:Name="btnSave" Content="Save to File" Click="SaveButton_Click" HorizontalAlignment="Left" Margin="687,314,0,10" Background="White" Foreground="Black" Width="83"/>
-        </Grid>
     </Grid>
 </Window>
+
