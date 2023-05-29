@@ -1,40 +1,40 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.IO;
 
-namespace DesktopApplication
+
+namespace OOP_app
 {
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        private ObservableCollection<Unit> units;
-        private Unit selectedUnit;
 
-        public ObservableCollection<Unit> Units
-        {
-            get { return units; }
-            set
-            {
-                units = value;
-                NotifyPropertyChanged();
-            }
-        }
+        int i = 1;
 
-        public Unit SelectedUnit
-        {
-            get { return selectedUnit; }
-            set
-            {
-                selectedUnit = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public ObservableCollection<Unit> Units { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             Units = new ObservableCollection<Unit>();
+            UnitsList.ItemsSource = Units;
         }
+
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -47,149 +47,109 @@ namespace DesktopApplication
             Unit newUnit = new Unit(location, unitNumber, need, status, time);
             Units.Add(newUnit);
 
-            ClearInputFields();
+            txtLocation.Text = "";
+            txtUnitNumber.Text = "";
+            txtNeed.Text = "";
+            txtStatus.Text = "";
+            txtTime.Text = "";
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedUnit != null)
+            if (UnitsList.SelectedItem != null)
             {
-                SelectedUnit.Location = txtLocation.Text;
-                SelectedUnit.UnitNumber = txtUnitNumber.Text;
-                SelectedUnit.Need = txtNeed.Text;
-                SelectedUnit.Status = txtStatus.Text;
-                SelectedUnit.Time = txtTime.Text;
-            }
+                Unit selectedUnit = UnitsList.SelectedItem as Unit;
+                string newLocation = txtLocation.Text;
+                string newUnitNumber = txtUnitNumber.Text;
+                string newNeed = txtNeed.Text;
+                string newStatus = txtStatus.Text;
+                string newTime = txtTime.Text;
 
-            ClearInputFields();
+                selectedUnit.Location = newLocation;
+                selectedUnit.UnitNumber = newUnitNumber;
+                selectedUnit.Need = newNeed;
+                selectedUnit.Status = newStatus;
+                selectedUnit.Time = newTime;
+
+                UnitsList.Items.Refresh();
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedUnit != null)
+            if (UnitsList.SelectedItem != null)
             {
-                Units.Remove(SelectedUnit);
-                SelectedUnit = null;
-            }
+                Unit selectedUnit = UnitsList.SelectedItem as Unit;
+                Units.Remove(selectedUnit);
 
-            ClearInputFields();
+                txtLocation.Text = "";
+                txtUnitNumber.Text = "";
+                txtNeed.Text = "";
+                txtStatus.Text = "";
+                txtTime.Text = "";
+            }
+        }
+
+        private void UnitsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (UnitsList.SelectedItem != null)
+            {
+                Unit selectedUnit = UnitsList.SelectedItem as Unit;
+                txtLocation.Text = selectedUnit.Location;
+                txtUnitNumber.Text = selectedUnit.UnitNumber;
+                txtNeed.Text = selectedUnit.Need;
+                txtStatus.Text = selectedUnit.Status;
+                txtTime.Text = selectedUnit.Time;
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = "units.txt";
+            // Assuming you want to save the units as XML
+            string filePath = "units.xml";
 
-            string location = locationTextBox.Text;
-            string unitID = unitIDTextBox.Text;
-            string need = needTextBox.Text;
-            string status = statusTextBox.Text;
-            string time = timeTextBox.Text;
-
-            string unitInfo = string.Format("Location: {0}\nUnit ID: {1}\nNeed: {2}\nStatus: {3}\nTime: {4}\n",
-                                    location, unitID, need, status, time);
-
-            try
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    writer.WriteLine(unitInfo);
-                }
-
-                MessageBox.Show("Unit information saved to file.");
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ObservableCollection<Unit>));
+                serializer.Serialize(writer, Units);
             }
-            catch (Exception ex)
+
+            MessageBox.Show("Units saved to file.");
+        }
+
+        private void Previous_Click(object sender, RoutedEventArgs e)
+        {
+            i--;
+
+            if (i < 1)
             {
-                MessageBox.Show("Error occurred while saving unit information: " + ex.Message);
+                i = 4;
             }
+
+            picture.Source = new BitmapImage(new Uri("/images/image"+i+".jpg", UriKind.Relative));
         }
 
-        private void ClearInputFields()
+        private void Next_Click(object sender, RoutedEventArgs e)
         {
-            txtLocation.Text = string.Empty;
-            txtUnitNumber.Text = string.Empty;
-            txtNeed.Text = string.Empty;
-            txtStatus.Text = string.Empty;
-            txtTime.Text = string.Empty;
-        }
+            i++;
 
-        private void HelpButton(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Help information goes here.");
-        }
-
-        private SearchButton(object sender, RoutedEventArgs e)
-        {
-            string searchQuery = searchTextBox.Text;
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (i > 4)
+            {
+                i = 1;
+            }
+            picture.Source = new BitmapImage(new Uri("/images/image"+i+".jpg", UriKind.Relative));
         }
     }
 
-    //-----------------------------------------------------------------
-
-    public class Unit : INotifyPropertyChanged
+    public class Unit
     {
-        private string location;
-        private string unitNumber;
-        private string need;
-        private string status;
-        private string time;
+        public string Location { get; set; }
+        public string UnitNumber { get; set; }
+        public string Need { get; set; }
+        public string Status { get; set; }
+        public string Time { get; set; }
 
-        public string Location
-        {
-            get { return location; }
-            set
-            {
-                location = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string UnitNumber
-        {
-            get { return unitNumber; }
-            set
-            {
-                unitNumber = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Need
-        {
-            get { return need; }
-            set
-            {
-                need = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Status
-        {
-            get { return status; }
-            set
-            {
-                status = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Time
-        {
-            get { return time; }
-            set
-            {
-                time = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public Unit() { }
 
         public Unit(string location, string unitNumber, string need, string status, string time)
         {
@@ -198,13 +158,6 @@ namespace DesktopApplication
             Need = need;
             Status = status;
             Time = time;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
