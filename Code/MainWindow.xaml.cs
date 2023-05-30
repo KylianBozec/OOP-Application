@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using Microsoft.VisualBasic;
 
 
 namespace OOP_app
@@ -34,6 +35,35 @@ namespace OOP_app
             Units = new ObservableCollection<Unit>();
             UnitsList.ItemsSource = Units;
         }
+
+        private void myCanvas_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (UnitsList.SelectedItem != null)
+            {
+                Unit selectedUnit = UnitsList.SelectedItem as Unit;
+                string unitInfo = $"<- Location: {selectedUnit.Location}\n" +
+                                  $"   Unit Number: {selectedUnit.UnitNumber}\n" +
+                                  $"   Need: {selectedUnit.Need}\n" +
+                                  $"   Status: {selectedUnit.Status}\n" +
+                                  $"   Time: {selectedUnit.Time}";
+
+                Label label = new Label
+                {
+                    Content = unitInfo,
+                    Foreground = Brushes.Black,
+                    FontSize = 11,
+                    FontWeight = FontWeights.Bold
+                };
+
+                Point position = e.GetPosition(myCanvas);
+                Canvas.SetLeft(label, position.X);
+                Canvas.SetTop(label, position.Y);
+
+                myCanvas.Children.Add(label);
+            }
+        }
+
+
 
         private void cmbImages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -166,3 +196,4 @@ namespace OOP_app
             Time = time;
         }
     }
+}
