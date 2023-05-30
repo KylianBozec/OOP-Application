@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOP_app"
         mc:Ignorable="d"
-        Title="MainWindow" SizeToContent="WidthAndHeight">
+        Title="Warlog" SizeToContent="WidthAndHeight">
 
     <Grid Margin="10" Background="DimGray">
         <Grid.RowDefinitions>
@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="#FF3A3939">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="434*"/>
                 <ColumnDefinition Width="242*"/>
@@ -22,9 +22,9 @@
             <Button x:Name="btnSave" Content="Save to File" Click="SaveButton_Click" HorizontalAlignment="Left" Margin="10,-2,0,0" Background="White" Foreground="Black" Width="110" Grid.Column="2"/>
         </Grid>
 
-        <TabControl Grid.Row="0" SelectionChanged="TabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" Grid.Row="0" SelectionChanged="TabControl_SelectionChanged" Foreground="#FF3A3939" Background="#FF3A3939" BorderBrush="#FF3A3939">
             <TabItem x:Name="tabUnits" Header="Units">
-                <Grid Height="318">
+                <Grid Width="600" Height="318" Background="#FF3A3939">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="53*"/>
                         <ColumnDefinition Width="697*"/>
@@ -38,7 +38,7 @@
                         <Button x:Name="btnAdd" Content="Add" Click="AddButton_Click" Background="White" Foreground="Black" Height="23" Width="57"/>
                     </StackPanel>
 
-                    <ListBox x:Name="UnitsList" Margin="10,76,156,10" Background="#FF817F7F" Foreground="White" SelectionChanged="UnitsList_SelectionChanged" FontSize="10" FontFamily="Bahnschrift" Grid.ColumnSpan="2">
+                    <ListBox x:Name="UnitsList" Margin="10,76,156,10" Background="#FFEDE8E8" Foreground="#FF1F1E1E" SelectionChanged="UnitsList_SelectionChanged" FontFamily="Berlin Sans FB Demi" Grid.ColumnSpan="2">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -52,21 +52,19 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <StackPanel Orientation="Horizontal" Margin="569,86,10,201" Grid.Column="1">
-                        <Button x:Name="btnEdit" Content="Edit" Click="EditButton_Click" Background="White" Foreground="Black" Width="48"/>
-                        <Button x:Name="btnDelete" Content="Delete" Click="DeleteButton_Click" Background="White" Foreground="Black" Width="53"/>
-                    </StackPanel>
-                    <Label Content="Units List :" HorizontalAlignment="Left" Margin="609,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
-                    <Label Content="Location :" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.ColumnSpan="2"/>
-                    <Label Content="UnitID :" HorizontalAlignment="Left" Margin="75,8,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
-                    <Label Content="Need :" HorizontalAlignment="Left" Margin="171,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
-                    <Label Content="Status :" HorizontalAlignment="Left" Margin="278,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
-                    <Label Content="Time :" HorizontalAlignment="Left" Margin="386,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1"/>
+                    <Button x:Name="btnEdit" Content="Edit" Click="EditButton_Click" Background="White" Foreground="Black" Margin="506,87,10,208" Grid.Column="1"/>
+                    <Button x:Name="btnDelete" Content="Delete" Click="DeleteButton_Click" Background="White" Foreground="Black" Margin="442,86,66,0" Height="24" VerticalAlignment="Top" Grid.Column="1"/>
+
+                    <Label Content="Location :" HorizontalAlignment="Left" Margin="42,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Foreground="#FFF0EBEB" Grid.ColumnSpan="2"/>
+                    <Label Content="UnitID :" HorizontalAlignment="Left" Margin="97,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1" Foreground="#FFF0EBEB"/>
+                    <Label Content="Need :" HorizontalAlignment="Left" Margin="214,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" Width="88" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1" Foreground="#FFF0EBEB"/>
+                    <Label Content="Status :" Margin="317,10,153,0" VerticalAlignment="Top" RenderTransformOrigin="0.755,0.193" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1" Foreground="#FFF0EBEB"/>
+                    <Label Content="Time :"  Margin="410,9,96,282" FontFamily="Bahnschrift SemiBold" FontSize="14" Grid.Column="1" Foreground="#FFF0EBEB"/>
+
+                    <Image Source="soldat.png" Margin="436,143,10,27" Grid.Column="1"/>
                 </Grid>
-
-
             </TabItem>
-            <TabItem Header="Map" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="36">
+            <TabItem x:Name="tabMap" Header="Map" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="36">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -88,32 +86,37 @@
                         <ComboBoxItem Content="image4"/>
                     </ComboBox>
 
+                    <Canvas x:Name="myCanvas" Background="Transparent" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" Margin="87,55,87,121"/>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Help">
-                <Grid Height="158">
+                <Grid Height="315">
                     <TextBlock Text="Welcome to Warlog!" 
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               Foreground="Black" FontSize="20" Margin="0,10,0,0"/>
+                               Foreground="#FFE3E1E1" FontSize="20" Margin="0,10,0,0"/>
                     <TextBlock Text="This application allows you to manage units." 
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               Foreground="Black" Margin="0,42,0,0"/>
-                    <TextBlock Text="To add a unit, enter the details in the input fields and click 'Add'." 
-                               HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Foreground="Black" Margin="230,63,0,0"/>
+                               Foreground="#FFE3E1E1" Margin="0,42,0,0"/>
+                    <TextBlock Text="To add a unit, enter the details in the input fields and click 'Add'." VerticalAlignment="Top"
+                               Foreground="#FFE3E1E1" Margin="342,63,342,0" Height="16"/>
                     <TextBlock Text="To edit a unit, select a unit from the list and click 'Edit'." 
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               Foreground="Black" Margin="0,84,0,0"/>
+                               Foreground="#FFE3E1E1" Margin="0,84,0,0"/>
                     <TextBlock Text="To delete a unit, select a unit from the list and click 'Delete'." 
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               Foreground="Black" Margin="0,103,0,0"/>
+                               Foreground="#FFE3E1E1" Margin="0,103,0,0"/>
                     <TextBlock Text="To save the units to a file, click 'Save to File'." 
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               Foreground="Black" Margin="0,124,0,0"/>
+                               Foreground="#FFE3E1E1" Margin="0,124,0,0"/>
+                    <TextBlock Text="Map:" 
+                               HorizontalAlignment="Center" VerticalAlignment="Top"
+                               Foreground="#FFE3E1E1" FontSize="20" Margin="0,158,0,0"/>
+                    <TextBlock VerticalAlignment="Top"
+                        Foreground="#FFE3E1E1" Margin="312,201,312,0" Height="54"><Run Text="to add a unit to the map, you need to select a unit in the Unit tab.  "/><LineBreak/><Run Text="Then you need to go to the map tab and click where the event is happening. "/><LineBreak/><Run Text=" Then, the informations about the current unit will be displayed on the map."/></TextBlock>
                 </Grid>
             </TabItem>
 
         </TabControl>
     </Grid>
 </Window>
-
